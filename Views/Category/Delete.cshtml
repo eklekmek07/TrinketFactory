@@ -1,0 +1,34 @@
+@model Category
+
+<form method="post">
+    <div class="container">
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-center">Are you sure about deleting?</h2>
+                <hr/>
+            </div>
+            <div class="row pb-2">
+                <label>Category Id</label>
+                <input asp-for="Id" class="form-control"/>
+                <span asp-validation-for="Name" disabled class="text-danger"></span>
+            </div>
+            <div class="row pb-2">
+                <label>Category Name</label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" disabled class="text-danger"></span>
+            </div>
+            <div class="row pb-2">
+                <label>Display Order</label>
+                <input asp-for="DisplayOrder" class="form-control"/>
+                <span asp-validation-for="DisplayOrder" disabled class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-danger form-control">Delete</button>
+            <a asp-controller="Category" asp-action="Index" class="btn btn-secondary form-control">Back</a>
+            <h6>2:28 bak burasının düzeni için</h6>
+        </div>
+    </div>
+</form>
+@section Scripts
+{
+    @{<partial name="_ValidationScriptsPartial"/>}
+}
