@@ -1,0 +1,40 @@
+@using System.Security.Cryptography
+@if (TempData["success"] != null)
+{
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.success('@TempData["success"]')
+        console.log("salam")
+    </script>
+}
+@if (TempData["error"] != null)
+{
+    <script type="text/javascript">
+        toastr.success(@TempData["success"])
+    </script>
+}
+
+@if (TempData["notification"] != null)
+{
+    <script type="text/javascript">
+        toastr["info"](@TempData["information"])
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+    </script>
+}
