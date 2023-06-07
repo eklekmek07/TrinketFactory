@@ -2,6 +2,7 @@ using TrinketFactoryWeb.Data;
 using TrinketFactoryWeb.Models;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace TrinketFactoryWeb.Controllers;
 
@@ -15,7 +16,11 @@ public class ProductController : Controller
     // GET
     public IActionResult Index()
     {
-        List<Product> objItemsList = _db.Products.ToList();
+        List<Product> objItemsList = _db.Products
+            .Include(p => p.Category)
+            .OrderBy(p => p.Name)
+            .ToList();
+        
         return View(objItemsList);
     }
 
@@ -37,8 +42,6 @@ public class ProductController : Controller
     
     public IActionResult Edit(int? id)
     {
-        
-        
         if (id == null || id == 0)
         {
             return NotFound();
@@ -71,8 +74,7 @@ public class ProductController : Controller
             return NotFound();
         }
         Product productFromDb = _db.Products.Find(id);
-        Product productFromDb1 = _db.Products.FirstOrDefault(u=>u.Id==id);
-        Product productFromDb2 = _db.Products.Where(u=>u.Id==id).FirstOrDefault();
+        
         if (productFromDb == null)
         {
             return NotFound();

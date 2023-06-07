@@ -42,13 +42,12 @@ public class CategoryController : Controller
             return NotFound();
         }
         Category categoriesFromDb = _db.Categories.Find(id);
-        Category categoriesFromDb1 = _db.Categories.FirstOrDefault(u=>u.Id==id);
-        Category categoriesFromDb2 = _db.Categories.Where(u=>u.Id==id).FirstOrDefault();
+        
         if (categoriesFromDb == null)
         {
             return NotFound();
         }
-        return View(categoriesFromDb);
+        return View();
     }
     [HttpPost]
     public IActionResult Edit(Category obj)
@@ -85,12 +84,10 @@ public class CategoryController : Controller
         {
             return NotFound();
         }
-
-        _db.Categories.Remove(obj);
         
         if (ModelState.IsValid)
         {
-            _db.Categories.Update(obj);
+            _db.Categories.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
