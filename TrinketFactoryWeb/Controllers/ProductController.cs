@@ -37,18 +37,19 @@ public class ProductController : Controller
     
     public IActionResult Edit(int? id)
     {
+        
+        
         if (id == null || id == 0)
         {
             return NotFound();
         }
         Product productFromDb = _db.Products.Find(id);
-        Product productFromDb1 = _db.Products.FirstOrDefault(u=>u.Id==id);
-        Product productFromDb2 = _db.Products.Where(u=>u.Id==id).FirstOrDefault();
+        
         if (productFromDb == null)
         {
             return NotFound();
         }
-        return View(productFromDb);
+        return View();
     }
     [HttpPost]
     public IActionResult Edit(Product obj)
@@ -79,19 +80,17 @@ public class ProductController : Controller
         return View(productFromDb);
     }
     [HttpPost, ActionName("Delete")]
-    public IActionResult DeletePOST(int? id)
+    public IActionResult DeletePost(int? id)
     {
         Product obj = _db.Products.Find(id);
         if (obj == null)
         {
             return NotFound();
         }
-
-        _db.Products.Remove(obj);
         
         if (ModelState.IsValid)
         {
-            _db.Products.Update(obj);
+            _db.Products.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
