@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using TrinketFactoryWeb.Data;
 using TrinketFactoryWeb.Models;
 
 using Microsoft.AspNetCore.Mvc;
 
 namespace TrinketFactoryWeb.Controllers;
-
+[Authorize(Roles = "Admin")]
 public class CategoryController : Controller
 {
     private readonly ApplicationDbContext _db;
@@ -29,6 +30,7 @@ public class CategoryController : Controller
     {
         if (ModelState.IsValid)
         {
+            TempData["success"] = $"Category {obj.Name} successfully created";
             _db.Categories.Add(obj);
             _db.SaveChanges();
         }
