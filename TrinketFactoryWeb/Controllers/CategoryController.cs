@@ -2,26 +2,21 @@ using TrinketFactoryWeb.Data;
 using TrinketFactoryWeb.Models;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace TrinketFactoryWeb.Controllers;
 
-public class ProductController : Controller
+public class CategoryController : Controller
 {
     private readonly ApplicationDbContext _db;
-    public ProductController(ApplicationDbContext db)
+    public CategoryController(ApplicationDbContext db)
     {
         _db = db;
     }
     // GET
     public IActionResult Index()
     {
-        List<Product> objItemsList = _db.Products
-            .Include(p => p.Category)
-            .OrderBy(p => p.Name)
-            .ToList();
-        
-        return View(objItemsList);
+        List<Category> objCategoryList = _db.Categories.ToList();
+        return View(objCategoryList);
     }
 
     public IActionResult Create()
@@ -30,11 +25,11 @@ public class ProductController : Controller
     }
     
     [HttpPost]
-    public IActionResult Create(Product obj)
+    public IActionResult Create(Category obj)
     {
         if (ModelState.IsValid)
         {
-            _db.Products.Add(obj);
+            _db.Categories.Add(obj);
             _db.SaveChanges();
         }
         return RedirectToAction("Index");
@@ -46,20 +41,20 @@ public class ProductController : Controller
         {
             return NotFound();
         }
-        Product productFromDb = _db.Products.Find(id);
+        Category categoriesFromDb = _db.Categories.Find(id);
         
-        if (productFromDb == null)
+        if (categoriesFromDb == null)
         {
             return NotFound();
         }
         return View();
     }
     [HttpPost]
-    public IActionResult Edit(Product obj)
+    public IActionResult Edit(Category obj)
     {
         if (ModelState.IsValid)
         {
-            _db.Products.Update(obj);
+            _db.Categories.Update(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -73,18 +68,18 @@ public class ProductController : Controller
         {
             return NotFound();
         }
-        Product productFromDb = _db.Products.Find(id);
+        Category categoriesFromDb = _db.Categories.Find(id);
         
-        if (productFromDb == null)
+        if (categoriesFromDb == null)
         {
             return NotFound();
         }
-        return View(productFromDb);
+        return View(categoriesFromDb);
     }
     [HttpPost, ActionName("Delete")]
-    public IActionResult DeletePost(int? id)
+    public IActionResult DeletePOST(int? id)
     {
-        Product obj = _db.Products.Find(id);
+        Category obj = _db.Categories.Find(id);
         if (obj == null)
         {
             return NotFound();
@@ -92,7 +87,7 @@ public class ProductController : Controller
         
         if (ModelState.IsValid)
         {
-            _db.Products.Remove(obj);
+            _db.Categories.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
