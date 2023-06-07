@@ -15,7 +15,7 @@ public class ProductController : Controller
     // GET
     public IActionResult Index()
     {
-        List<Product> objItemsList = _db.Product.ToList();
+        List<Product> objItemsList = _db.Products.ToList();
         return View(objItemsList);
     }
 
@@ -29,7 +29,7 @@ public class ProductController : Controller
     {
         if (ModelState.IsValid)
         {
-            _db.Product.Add(obj);
+            _db.Products.Add(obj);
             _db.SaveChanges();
         }
         return RedirectToAction("Index");
@@ -41,21 +41,21 @@ public class ProductController : Controller
         {
             return NotFound();
         }
-        Product productFromDb = _db.Product.Find(id);
-        Product productFromDb1 = _db.Product.FirstOrDefault(u=>.Id==id);
-        Product productFromDb2 = _db.Product.Where(u=>.Id==id).FirstOrDefault();
+        Product productFromDb = _db.Products.Find(id);
+        Product productFromDb1 = _db.Products.FirstOrDefault(u=>u.Id==id);
+        Product productFromDb2 = _db.Products.Where(u=>u.Id==id).FirstOrDefault();
         if (productFromDb == null)
         {
             return NotFound();
         }
-        return View(categoryFromDb);
+        return View(productFromDb);
     }
     [HttpPost]
     public IActionResult Edit(Product obj)
     {
         if (ModelState.IsValid)
         {
-            _db.Product.Update(obj);
+            _db.Products.Update(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -69,29 +69,29 @@ public class ProductController : Controller
         {
             return NotFound();
         }
-        Product productFromDb = _db.Product.Find(id);
-        Product productFromDb1 = _db.Product.FirstOrDefault(u=>.Id==id);
-        Product productFromDb2 = _db.Product.Where(u=>.Id==id).FirstOrDefault();
+        Product productFromDb = _db.Products.Find(id);
+        Product productFromDb1 = _db.Products.FirstOrDefault(u=>u.Id==id);
+        Product productFromDb2 = _db.Products.Where(u=>u.Id==id).FirstOrDefault();
         if (productFromDb == null)
         {
             return NotFound();
         }
-        return View(categoryFromDb);
+        return View(productFromDb);
     }
     [HttpPost, ActionName("Delete")]
     public IActionResult DeletePOST(int? id)
     {
-        Product obj = _db.Product.Find(id);
+        Product obj = _db.Products.Find(id);
         if (obj == null)
         {
             return NotFound();
         }
 
-        _db.Product.Remove(obj);
+        _db.Products.Remove(obj);
         
         if (ModelState.IsValid)
         {
-            _db.Product.Update(obj);
+            _db.Products.Update(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }

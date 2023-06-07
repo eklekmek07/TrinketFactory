@@ -33,11 +33,11 @@
     @foreach (var obj in Model.OrderBy(u=> u.Name))
     {
         <tr>
-            <td>@obj.name</td>
+            <td>@obj.Name</td>
             <td>
-                @obj.price
+                @obj.Price
             </td>
-            <td>@obj.categoryId</td>
+            <td>@obj.CategoryId</td>
             
             <td>
                 <div class="w-75 btn-group" role="group">

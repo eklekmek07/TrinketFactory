@@ -9,17 +9,17 @@
         </div>
         @*<div asp-validation-summary=""ModelOnly"></div>*@
         <div class="mb-3 row">
-            <label asp-for="name">Product Name</label>
-            <input asp-for="name" type="text" class="form-control"/>
+            <label asp-for="Name">Product Name</label>
+            <input asp-for="Name" type="text" class="form-control"/>
 
         </div>
         <div class="mb-3 row">
             <label>Product Price</label>
-            <input asp-for="price" type="text" class="form-control"/>
+            <input asp-for="Price" type="text" class="form-control"/>
         </div>
         <div class="mb-3 row">
             <label>Product Category ID</label>
-            <input asp-for="categoryId" type="text" class="form-control"/>
+            <input asp-for="CategoryId" type="text" class="form-control"/>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
         <a asp-controller="product" asp-action="Index" class="btn btn-secondary" style="width: 150px">
