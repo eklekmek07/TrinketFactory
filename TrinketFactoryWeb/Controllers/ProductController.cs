@@ -59,26 +59,37 @@ public class ProductController : Controller
         }
         return View(productFromDb);
     }
-    [HttpPost]
-    public IActionResult Edit(Product? obj)
+    [HttpPost, ActionName("Edit")]
+    public IActionResult EditPost(int? productId)
     {
-        if (ModelState.IsValid)
+        if (productId == null || productId == 0)
         {
-            _db.Products.Update(obj);
+            return NotFound();
+        }
+
+        Product obj = _db.Products.Find(productId);
+        if (obj == null)
+        {
+            return NotFound();
+        }
+
+        if (TryUpdateModelAsync<Product>(obj, "", p => p.Name, p => p.Price, p => p.CategoryId, p => p.ImagePath).Result)
+        {
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        return View();
+        return View(obj);
     }
+
     
-    public IActionResult Delete(int? id)
+    public IActionResult Delete(int? productId)
     {
-        if (id == null || id == 0)
+        if (productId == null || productId == 0)
         {
             return NotFound();
         }
-        Product productFromDb = _db.Products.Find(id);
+        Product productFromDb = _db.Products.Find(productId);
         
         if (productFromDb == null)
         {
@@ -87,9 +98,9 @@ public class ProductController : Controller
         return View(productFromDb);
     }
     [HttpPost, ActionName("Delete")]
-    public IActionResult DeletePost(int? id)
+    public IActionResult DeletePost(int? productId)
     {
-        Product? obj = _db.Products.Find(id);
+        Product? obj = _db.Products.Find(productId);
         if (obj == null)
         {
             return NotFound();
