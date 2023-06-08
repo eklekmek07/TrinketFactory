@@ -1,70 +1,59 @@
 @model List<CartItem>
-
-<div class="container">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">
-                Cart
-            </h2>
-        </div>
-        
-    </div>
+<div class="m-auto align-items-center">
+    <div class="col-lg-5 order-md-last mx-auto">
+    <h4 class="d-flex justify-content-between mb-3">
+        <span class="text-primary">Your cart</span>
+        <span class="badge bg-primary rounded-pill">@Model.Count</span>
+    </h4>
+    @{ float totalPrice = 0;}
+    @foreach (var obj in Model.OrderBy(obj => obj.Product.Name))
+    {
+        <ul class="list-group mb-3 mx-auto">
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                    <h6 class="my-0">@obj.Product.Name</h6>
+                    <small class="text-body-secondary">@obj.Product.Category</small>
+                </div>
+                <span class="text-body-secondary">
+                    @{var rowTotalPrice = obj.Product.Price * obj.Quantity;
+                        totalPrice += (float)rowTotalPrice;} @rowTotalPrice
+                </span>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <form asp-controller="Cart" asp-action="Increment" method="post">
+                        <input type="hidden" name="id" value="@obj.Id"/>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </form>
+                    <button disabled type="submit" class="btn btn-primary">
+                        @obj.Quantity
+                    </button>
+                    <form asp-controller="Cart" asp-action="Decrement" method="post">
+                        <input type="hidden" name="id" value="@obj.Id"/>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-dash"></i>
+                        </button>
+                    </form>
+                    <form asp-controller="Cart" asp-action="Remove" method="post">
+                        <input type="hidden" name="id" value="@obj.Id" />
+                        <button type="submit" class="btn btn-danger mx-3">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </li>
+              
+             
+       
+                  
+        </ul>
+    }
+    <li class="list-group-item d-flex justify-content-between">
+        <span>Total (USD)</span>
+        <strong>@totalPrice</strong>
+    </li>
+    <a asp-action="Purchase">
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+    </a>
 </div>
-
-<h1>Cart</h1>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>
-                Item Name
-            </th>
-            <th>
-                Item Price
-            </th>
-            <th>
-                Item Quantity
-            </th>
-            <th>
-                Action
-            </th>
-            
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var obj in Model.OrderBy(obj => obj.Product.Name))
-        {
-            <tr>
-                <td>@obj.Product.Name</td>
-                <td>
-                    @{
-                        var totalPrice = obj.Product.Price * obj.Quantity;
-                    }
-                    @totalPrice
-                </td>
-                <td>@obj.Quantity</td>
-                <td>
-                    <div class="w-75 btn-group" role="group">
-                        <form asp-controller="Cart" asp-action="Increment" method="post">
-                            <input type="hidden" name="id" value="@obj.Id" />
-                            <button type="submit" class="btn btn-primary mx-2">
-                                <i class="bi bi-plus"></i> Increment
-                            </button>
-                        </form>
-                        <form asp-controller="Cart" asp-action="Decrement" method="post">
-                            <input type="hidden" name="id" value="@obj.Id" />
-                            <button type="submit" class="btn btn-primary mx-2">
-                                <i class="bi bi-dash"></i> Decrement
-                            </button>
-                        </form>
-                        <form asp-controller="Cart" asp-action="Remove" method="post">
-                            <input type="hidden" name="id" value="@obj.Id" />
-                            <button type="submit" class="btn btn-danger mx-2">
-                                <i class="bi bi-trash"></i> Remove
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+</div>

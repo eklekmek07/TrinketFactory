@@ -38,6 +38,34 @@ public class CartController : Controller
             .ToList(); // 3
         return View(cartItems); // 4
     }
+
+    public IActionResult Purchase()
+    {
+        string userId = _userManager.GetUserId(User); // 1
+        int cartId = _db.Carts.Where(c => c.ApplicationUserId == userId)
+            .Select(c => c.Id)
+            .FirstOrDefault(); // 2
+        List<CartItem?> cartItems = _db.CartItems
+            .Include(p =>p.Product)
+            .Where(ci => ci.CartId == cartId)
+            .ToList(); // 3
+        return View();
+    }
+    
+    public IActionResult PurchaseDone()
+    {
+        string userId = _userManager.GetUserId(User); // 1
+        int cartId = _db.Carts.Where(c => c.ApplicationUserId == userId)
+            .Select(c => c.Id)
+            .FirstOrDefault(); // 2
+        List<CartItem?> cartItems = _db.CartItems
+            .Include(p =>p.Product)
+            .Where(ci => ci.CartId == cartId)
+            .ToList(); // 3
+        _db.CartItems.RemoveRange(cartItems);
+        _db.SaveChanges();
+        return View();
+    }
     
     public IActionResult Add(int productId)
     {
