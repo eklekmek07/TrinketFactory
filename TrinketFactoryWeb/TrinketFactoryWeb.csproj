@@ -26,6 +26,8 @@
       <_ContentIncludedByDefault Remove="Views\ShoppingCart\Delete.cshtml" />
       <_ContentIncludedByDefault Remove="Views\ShoppingCart\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Views\ShoppingCart\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\News\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
     </ItemGroup>
 
 </Project>
