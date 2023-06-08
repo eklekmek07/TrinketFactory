@@ -36,6 +36,11 @@ public class CartController : Controller
             .Include(p =>p.Product)
             .Where(ci => ci.CartId == cartId)
             .ToList(); // 3
+        if (cartItems.Count == 0)
+        {
+            TempData["success"] = "You don't have any item in your shopping cart!";
+            return RedirectToAction(controllerName: "Product", actionName: "Index");
+        }
         return View(cartItems); // 4
     }
 
@@ -92,7 +97,7 @@ public class CartController : Controller
             _db.CartItems.Add(cartItem);
         }
         
-        TempData["succes"] = $"{product!.Name} added succesfull to cart!";
+        TempData["success"] = $"{product!.Name} added to cart!";
         _db.SaveChanges();
         return RedirectToAction(controllerName:"Product", actionName:"Index");
     }
