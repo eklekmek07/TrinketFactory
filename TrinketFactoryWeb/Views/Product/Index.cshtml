@@ -1,3 +1,4 @@
+@using TrinketFactoryWeb.Utility
 @model List<Product>
 
 
@@ -21,7 +22,14 @@
             <div class="row p-2">
                 <div class="col-12 p-1">
                     <div class="card border-0 p-3 shadow  border-top border-5 rounded">
-                        <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                        @if (!string.IsNullOrEmpty(product.ImagePath))
+                        {
+                            <img src="@product.ImagePath" class="card-img-top rounded" />
+                        }
+                        else
+                        {
+                            <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                        }
                         <h1 hidden>https://github.com/bhrugen/Bulky_MVC/blob/master/BulkyWeb/Areas/Customer/Views/Home/Index.cshtml</h1>
                         <div class="card-body pb-0">
                             <div class="pl-1">
@@ -42,6 +50,13 @@
                                 Details
                             </a>
                         </div>
+                        @if(User.IsInRole(Sd.RoleAdmin)){
+                        <div>
+                            <a asp-action="Edit" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control">
+                                Edit
+                            </a>
+                        </div>
+                        }
                         <div>
                             <a asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control">
                                 Add to cart

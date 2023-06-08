@@ -45,19 +45,19 @@ public class ProductController : Controller
         return RedirectToAction("Index");
     }
     
-    public IActionResult Edit(int? id)
+    public IActionResult Edit(int? productId)
     {
-        if (id == null || id == 0)
+        if (productId == null || productId == 0)
         {
             return NotFound();
         }
-        Product productFromDb = _db.Products.Find(id);
+        Product productFromDb = _db.Products.Find(productId);
         
         if (productFromDb == null)
         {
             return NotFound();
         }
-        return View();
+        return View(productFromDb);
     }
     [HttpPost]
     public IActionResult Edit(Product? obj)

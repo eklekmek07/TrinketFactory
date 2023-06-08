@@ -16,9 +16,15 @@
             <input asp-for = "Price" type="text" class="form-control"/>
         </div>
         <div class="mb-3 row">
-                    <label>Product Category ID</label>
+                <label>Product Category ID</label>
                     <input asp-for = "CategoryId" type="text" class="form-control"/>
                 </div>
+        <div class="mb-3 row">
+            <label class="col-form-label">Product Image</label>
+            <div class="col-sm-8">
+                <input asp-for="ImagePath" type="text" class="form-control" />
+            </div>
+        </div>
         <button type ="submit" class="btn btn-primary" style="width:150px">Create</button>
         <a asp-controller="product" asp-action="Index" class="btn btn-secondary" style="width: 150px">
             Cancel
