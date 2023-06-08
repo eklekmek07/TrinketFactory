@@ -14,6 +14,40 @@
     </div>
 </div>
 
+<div class="row pb-3">
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-sm-6">
+            <div class="row p-2">
+                <div class="col-12 p-1">
+                    <div class="card border-0 p-3 shadow  border-top border-5 rounded">
+                        <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                        <h1 hidden>https://github.com/bhrugen/Bulky_MVC/blob/master/BulkyWeb/Areas/Customer/Views/Home/Index.cshtml</h1>
+                        <div class="card-body pb-0">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.Name</p>
+                                <p class="card-title text-warning text-center">by <b>@product.Category.Name</b></p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-dark text-opacity-75 text-center mb-0">
+                                    List Price: 
+                                    <span class="text-decoration-line-through">
+                                        @product.Price.ToString("c")
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 <h1>Products</h1>
 <table class="table table-bordered table-striped">

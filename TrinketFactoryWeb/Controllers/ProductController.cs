@@ -1,6 +1,5 @@
 using TrinketFactoryWeb.Data;
 using TrinketFactoryWeb.Models;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +26,12 @@ public class ProductController : Controller
     public IActionResult Create()
     {
         return View();
+    }
+
+    public IActionResult Details(int productId)
+    {
+        Product product = _db.Products.FirstOrDefault(p => p.Id == productId);
+        return View(product);
     }
     
     [HttpPost]
