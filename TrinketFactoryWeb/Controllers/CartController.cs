@@ -49,7 +49,7 @@ public class CartController : Controller
             .Include(p =>p.Product)
             .Where(ci => ci.CartId == cartId)
             .ToList(); // 3
-        return View();
+        return View(cartItems);
     }
     
     public IActionResult PurchaseDone()
@@ -97,7 +97,6 @@ public class CartController : Controller
         return RedirectToAction(controllerName:"Product", actionName:"Index");
     }
 
-    
     // POST: Cart/Increment/5
     [HttpPost]
     public IActionResult Increment(int id)

@@ -1,18 +1,40 @@
 @model Product
 
-@{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
-}
-<h1>
-    @Model.Id
-</h1>
-<h1>
-    @Model.Category
-</h1><h1>
-    @Model.Name
-</h1><h1>
-    @Model.Price
-</h1><h1>
-    @Model.ImagePath
-</h1>
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2 justify-content-center">
+            <h2 class="text-primary">Trinket</h2>
+            <hr />
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-8">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Product Name</label>
+                    <input asp-for="Name" type="text" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label">Product Price</label>
+                    <input asp-for="Price" type="text" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CategoryId" class="form-label">Product Category ID</label>
+                    <input asp-for="CategoryId" type="text" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ImagePath" class="form-label">Product Image URL</label>
+                    <input asp-for="ImagePath" type="text" class="form-control" />
+                </div>
+                <div class="mb-3 text-center">
+                    <img src="@Model.ImagePath" class="img-fluid rounded" alt="Product Image" style="max-width: 500px; height: auto;" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-sm-8 d-flex justify-content-between mt-2">
+                <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                <a asp-controller="product" asp-action="Index" class="btn btn-secondary btn-lg">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>

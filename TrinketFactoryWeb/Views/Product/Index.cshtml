@@ -45,26 +45,28 @@
                             <div class="pl-1">
                                 <p class="text-dark text-opacity-75 text-center mb-0">
                                     List Price: 
-                                    <span class="text-decoration-line-through">
+                                    <span>
                                         @product.Price.ToString("c")
                                     </span>
                                 </p>
                             </div>
                         </div>
-                        <div>
-                            <a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control">
+                        <div class="btn-group p-2">
+                            <a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary p-2 bg-gradient border-0 form-control">
                                 Details
                             </a>
                         </div>
                         @if(User.IsInRole(Sd.RoleAdmin)){
-                        <div>
-                            <a asp-action="Edit" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control">
+                        <div class="btn-group p-2" role="group" aria-label="Basic example">
+                            <a asp-action="Edit" asp-route-productId="@product.Id" class="btn btn-warning bg-gradient border-0 form-control">
                                 Edit
                             </a>
+                            <a asp-action="Delete" asp-route-productId="@product.Id" class="btn btn-danger bg-gradient border-0 form-control">
+                                Delete
+                            </a>
                         </div>}
-                        
-                        <div>
-                            <a asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control">
+                        <div class="btn-group p-2">
+                            <a asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id" class="btn p-2 btn-success bg-gradient border-0 form-control">
                                 Add to cart
                             </a>
                         </div>
