@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace TrinketFactoryWeb.Controllers;
-
+[Authorize]
 public class CartController : Controller
 {
     private readonly ApplicationDbContext _db;

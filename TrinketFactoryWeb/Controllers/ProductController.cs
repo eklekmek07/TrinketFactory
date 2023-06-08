@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using TrinketFactoryWeb.Data;
 using TrinketFactoryWeb.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ public class ProductController : Controller
         
         return View(objItemsList);
     }
-
+    [Authorize(Roles = "Admin")]
     public IActionResult Create()
     {
         return View();
@@ -33,7 +34,7 @@ public class ProductController : Controller
         Product product = _db.Products.FirstOrDefault(p => p.Id == productId);
         return View(product);
     }
-    
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public IActionResult Create(Product? obj)
     {
@@ -44,7 +45,7 @@ public class ProductController : Controller
         }
         return RedirectToAction("Index");
     }
-    
+    [Authorize(Roles = "Admin")]
     public IActionResult Edit(int? productId)
     {
         if (productId == null || productId == 0)
@@ -59,6 +60,7 @@ public class ProductController : Controller
         }
         return View(productFromDb);
     }
+    [Authorize(Roles = "Admin")]
     [HttpPost, ActionName("Edit")]
     public IActionResult EditPost(int? productId)
     {
@@ -81,8 +83,7 @@ public class ProductController : Controller
 
         return View(obj);
     }
-
-    
+    [Authorize(Roles = "Admin")]
     public IActionResult Delete(int? productId)
     {
         if (productId == null || productId == 0)
@@ -97,6 +98,7 @@ public class ProductController : Controller
         }
         return View(productFromDb);
     }
+    [Authorize(Roles = "Admin")]
     [HttpPost, ActionName("Delete")]
     public IActionResult DeletePost(int? productId)
     {

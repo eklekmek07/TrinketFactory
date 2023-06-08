@@ -1,19 +1,12 @@
 @using TrinketFactoryWeb.Utility
 @model List<Product>
 
-
-<div class="container">
-    <div class="row-pt4">
-        <div class="col-6">
-            <h2 class="text-primary">
-                Products
-            </h2>
-        </div>
-        <a asp-controller="Product" asp-action="Create" class="btn btn-primary">
-            Add new Product
-        </a>
-    </div>
-</div>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-controller="Product" asp-action="Create" class="btn btn-primary">
+        Add new Product
+    </a>
+}
 
 <div class="row pb-3">
     @foreach (var product in Model)
@@ -25,8 +18,8 @@
                         
                         @if (!string.IsNullOrEmpty(product.ImagePath))
                         {
-                            <a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control">
-                                <img src="@product.ImagePath" class="card-img-top rounded" />
+                            <a asp-action="Details" asp-route-productId="@product.Id" class="form-control">
+                                <img src="@product.ImagePath" class="card-img-top"/>
                             </a>
                         }
                         else
@@ -40,7 +33,7 @@
                         <div class="card-body pb-0">
                             <div class="pl-1">
                                 <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.Name</p>
-                                <p class="card-title text-warning text-center">by <b>@product.Category.Name</b></p>
+                                <p class="card-title text-warning text-center"><b>@product.Category.Name</b></p>
                             </div>
                             <div class="pl-1">
                                 <p class="text-dark text-opacity-75 text-center mb-0">
@@ -50,11 +43,6 @@
                                     </span>
                                 </p>
                             </div>
-                        </div>
-                        <div class="btn-group p-2">
-                            <a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary p-2 bg-gradient border-0 form-control">
-                                Details
-                            </a>
                         </div>
                         @if(User.IsInRole(Sd.RoleAdmin)){
                         <div class="btn-group p-2" role="group" aria-label="Basic example">
