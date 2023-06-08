@@ -19,8 +19,15 @@
                 Item Name
             </th>
             <th>
+                Item Price
+            </th>
+            <th>
+                Item Quantity
+            </th>
+            <th>
                 Action
             </th>
+            
         </tr>
     </thead>
     <tbody>
@@ -28,6 +35,13 @@
         {
             <tr>
                 <td>@obj.Product.Name</td>
+                <td>
+                    @{
+                        var totalPrice = obj.Product.Price * obj.Quantity;
+                    }
+                    @totalPrice
+                </td>
+                <td>@obj.Quantity</td>
                 <td>
                     <div class="w-75 btn-group" role="group">
                         <form asp-controller="Cart" asp-action="Increment" method="post">
