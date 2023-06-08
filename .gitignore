@@ -7,3 +7,9 @@ riderModule.iml
 **/.idea/
 .DS_Store
 **/.DS_Store
+TrinketFactoryWeb/app.db-shm
+*/app.db-wal
+*.db-shm
+*.db-wal
+TrinketFactoryWeb/app.db-shm
+TrinketFactoryWeb/app.db-wal
