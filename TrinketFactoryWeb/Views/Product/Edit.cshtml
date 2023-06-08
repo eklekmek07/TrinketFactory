@@ -21,9 +21,21 @@
             <label>Product Category ID</label>
             <input asp-for="CategoryId" type="text" class="form-control"/>
         </div>
+        <div class="mb-3 row">
+            <label class="col-form-label">Product Image URL</label>
+            <div class="col-sm-8">
+                <input asp-for="ImagePath" type="text" class="form-control" />
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-form-label">Preview</label>
+            <div class="col-sm-8">
+                <img src="@Model.ImagePath" class="img-fluid" alt="Product Image" />
+            </div>
+        </div>
         
         <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
-        <a asp-controller="product" asp-action="Index" class="btn btn-secondary" style="width: 150px">
+        <a asp-controller="product" asp-action="Index" class="btn btn-secondary">
             Cancel
         </a>
     </div>
