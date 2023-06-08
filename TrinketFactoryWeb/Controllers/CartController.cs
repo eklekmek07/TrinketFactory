@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using TrinketFactoryWeb.Data;
@@ -14,7 +15,7 @@ public class CartController : Controller
     private readonly ApplicationDbContext _db;
     private readonly UserManager<IdentityUser> _userManager;
     public CartController(
-        ApplicationDbContext db,  
+        ApplicationDbContext db,
         UserManager<IdentityUser> userManager)
     {
         _db = db;
@@ -31,11 +32,43 @@ public class CartController : Controller
         int cartId = _db.Carts.Where(c => c.ApplicationUserId == userId)
             .Select(c => c.Id)
             .FirstOrDefault(); // 2
-        List<CartItem> cartItems = _db.CartItems
+        List<CartItem?> cartItems = _db.CartItems
+            .Include(p =>p.Product)
             .Where(ci => ci.CartId == cartId)
             .ToList(); // 3
         return View(cartItems); // 4
     }
+    
+    public IActionResult Add(int productId)
+    {
+        
+        Product? product = _db.Products.FirstOrDefault(p => p.Id == productId);
+        string userId = _userManager.GetUserId(User);
+        int cartId = _db.Carts.Where(c => c.ApplicationUserId == userId)
+            .Select(c => c.Id)
+            .FirstOrDefault(); // 2
+        var cartItem = _db.CartItems
+            .Where(c => c.CartId == cartId)
+            .FirstOrDefault(c => c.Product.Id == productId);
+        if (cartItem != null) {
+            
+            cartItem.Quantity++;
+        }
+        else {
+            cartItem = new CartItem
+            {
+                CartId = cartId,
+                Quantity = 1,
+                Product = product
+            };
+            _db.CartItems.Add(cartItem);
+        }
+        
+        TempData["succes"] = $"{product!.Name} added succesfull to cart!";
+        _db.SaveChanges();
+        return RedirectToAction(controllerName:"Product", actionName:"Index");
+    }
+
     
     // POST: Cart/Increment/5
     [HttpPost]
@@ -54,7 +87,7 @@ public class CartController : Controller
     [HttpPost]
     public IActionResult Decrement(int id)
     {
-        CartItem cartItem = _db.CartItems.FirstOrDefault(ci => ci.Id == id);
+        CartItem? cartItem = _db.CartItems.FirstOrDefault(ci => ci.Id == id);
         if (cartItem != null)
         {
             if (cartItem.Quantity > 1)
@@ -75,7 +108,7 @@ public class CartController : Controller
     [HttpPost]
     public IActionResult Remove(int id)
     {
-        CartItem cartItem = _db.CartItems.FirstOrDefault(ci => ci.Id == id);
+        CartItem? cartItem = _db.CartItems.FirstOrDefault(ci => ci.Id == id);
         if (cartItem != null)
         {
             _db.CartItems.Remove(cartItem);

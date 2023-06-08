@@ -35,7 +35,7 @@ public class ProductController : Controller
     }
     
     [HttpPost]
-    public IActionResult Create(Product obj)
+    public IActionResult Create(Product? obj)
     {
         if (ModelState.IsValid)
         {
@@ -60,7 +60,7 @@ public class ProductController : Controller
         return View();
     }
     [HttpPost]
-    public IActionResult Edit(Product obj)
+    public IActionResult Edit(Product? obj)
     {
         if (ModelState.IsValid)
         {
@@ -89,7 +89,7 @@ public class ProductController : Controller
     [HttpPost, ActionName("Delete")]
     public IActionResult DeletePost(int? id)
     {
-        Product obj = _db.Products.Find(id);
+        Product? obj = _db.Products.Find(id);
         if (obj == null)
         {
             return NotFound();

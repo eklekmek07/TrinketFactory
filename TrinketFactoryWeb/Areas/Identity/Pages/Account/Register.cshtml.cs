@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using TrinketFactoryWeb.Data;
 using TrinketFactoryWeb.Models;
 using TrinketFactoryWeb.Utility;
 
@@ -27,8 +28,9 @@ namespace TrinketFactoryWeb.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ApplicationDbContext _db;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
@@ -36,15 +38,17 @@ namespace TrinketFactoryWeb.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
+            ApplicationDbContext db,
             RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
-            _userManager = userManager;
+            _db = db;
             _roleManager = roleManager;
+            _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
@@ -118,7 +122,8 @@ namespace TrinketFactoryWeb.Areas.Identity.Pages.Account
                 _roleManager.CreateAsync(new IdentityRole(Sd.RoleCustomer)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(Sd.RoleAdmin)).GetAwaiter().GetResult();
             }
-
+            
+            
             Input = new()
             {
                 RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
@@ -150,11 +155,17 @@ namespace TrinketFactoryWeb.Areas.Identity.Pages.Account
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    
+                    Cart cart = new Cart { ApplicationUserId = userId };
+                    cart.ApplicationUserId = userId;
+                    _db.Carts.Add(cart);
+                    await _db.SaveChangesAsync(); // await sil gerekirse
+
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        values: new { area = "Identity",userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
